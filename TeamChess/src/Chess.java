@@ -4,6 +4,10 @@ public class Chess {
 	
 	// Play chess
 	public void play() {
+		test();
+	}
+	
+	public void test() {
 		System.out.println(board);
 		board.squares[0][0].move(7, 0);
 		System.out.println(board);
