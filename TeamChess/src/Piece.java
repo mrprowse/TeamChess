@@ -59,6 +59,10 @@ public class Piece {
 	 * move is allowed, or not if not
 	 */
 	public boolean move(int row, int col) {
+		// Save the current state in case 
+		// the move puts the player into check
+		int oldRow = this.row, oldCol = this.col;
+		Piece oldPiece = this.board.squares[row][col];
 		// If it's a valid square to move to
 		if (this.board.squares[row][col] == null
 				|| !this.board.squares[row][col].colour.equalsIgnoreCase(this.colour)) {
@@ -71,10 +75,32 @@ public class Piece {
 				// Update the piece's internal row and col
 				this.row = row;
 				this.col = col;
-				return true;
+				// Undo the move if necessary
+				if (this.board.isInCheck(this.colour)) {
+					System.out.println("That move puts you in check.");
+					// undo move
+					undoMove(oldPiece, oldRow, oldCol);
+				} else {
+					return true;
+				}
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Undo the last move the player did
+	 * @param takenPiece The piece that was at the location 
+	 * the player just moved to; could be null
+	 * @param oldRow The row the player moved from
+	 * @param oldCol The col the player moved from
+	 */
+	private void undoMove(Piece takenPiece,	int oldRow, int oldCol) {
+		System.out.println("Undoing move...");
+		this.board.squares[this.row][this.col] = takenPiece;
+		this.board.squares[oldRow][oldCol] = this;
+		this.row = oldRow;
+		this.col = oldCol;
 	}
 	
 	private boolean isValidMove(int row, int col) {
@@ -154,6 +180,9 @@ public class Piece {
 				+ colour.substring(0, 1);
 	}
 	
+	public String getColour() {
+		return this.colour;
+	}
 	// 
 	public String toString() {
 		return colour.toUpperCase() + " "

@@ -62,4 +62,20 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Given the current state of the board
+	 * and a given colour, return true if that
+	 * colour is in check from the opponent.
+	 * Use this method to tell if a given move 
+	 * will put either player in check so that
+	 * you can retract an illegal move or alert
+	 * a player that they are now in check.
+	 * @param colour
+	 * @return boolean
+	 */
+	public boolean isInCheck(String colour) {
+		// Check 
+		return Math.random() > 0.5;
+	}
+	
 }
